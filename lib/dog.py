@@ -1,39 +1,40 @@
-APPROVED_BREEDS = [
-    "Mastiff",
-    "Chihuahua",
-    "Corgi",
-    "Shar Pei",
-    "Beagle",
-    "French Bulldog",
-    "Pug",
-    "Pointer"
-]
-
+#!/usr/bin/env python3
 
 class Dog:
-    def __init__(self, name='Fido', breed='Mastiff'):
+    approved_breeds = [
+        "Corgi", "Beagle", "Pug", "Dalmatian", "Bulldog", "Labrador", "Golden Retriever", "Mutt"
+    ]
+
+    def __init__(self, name="Fido", breed="Mutt"):
+        # Use property setters to validate
         self.name = name
         self.breed = breed
 
-    def get_name(self):
+    # Name property with validation
+    @property
+    def name(self):
         return self._name
 
-    def set_name(self, name):
-        if isinstance(name, str) and 1 <= len(name) <= 25:
-            self._name = name.title()
-        else:
-            raise ValueError(
-                "Name must be string between 1 and 25 characters.")
+    @name.setter
+    def name(self, value):
+        if not isinstance(value, str) or not (1 <= len(value) <= 25):
+            raise ValueError("Name must be a string between 1 and 25 characters.")
+        self._name = value
 
-    name = property(get_name, set_name)
-
-    def get_breed(self):
+    # Breed property with validation
+    @property
+    def breed(self):
         return self._breed
 
-    def set_breed(self, breed):
-        if breed in APPROVED_BREEDS:
-            self._breed = breed
-        else:
+    @breed.setter
+    def breed(self, value):
+        if value not in self.approved_breeds:
             raise ValueError("Breed must be in list of approved breeds.")
+        self._breed = value
 
-    breed = property(get_breed, set_breed)
+    # Example instance methods (optional, for your previous tests)
+    def bark(self):
+        print("Woof!")
+
+    def sit(self):
+        print("The dog is sitting.")
